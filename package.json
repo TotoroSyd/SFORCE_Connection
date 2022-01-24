@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "dotenv": "^14.2.0",
+    "express": "^4.17.2",
+    "jsforce": "^1.11.0"
+  },
+  "name": "SalesforceConnection",
+  "version": "1.0.0",
+  "description": "Salesforce connection with Express, jsforce",
+  "main": "index.js",
+  "author": "Phoebe Nguyen",
+  "license": "MIT"
+}
