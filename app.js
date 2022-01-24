@@ -5,6 +5,7 @@ require("dotenv").config();
 
 // Create express app
 const app = express();
+// port 3000 is being used by MochiMachi client side
 app.set("port", 3001);
 
 // Connect SF
