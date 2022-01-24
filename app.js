@@ -7,6 +7,14 @@ require("dotenv").config();
 const app = express();
 // port 3000 is being used by MochiMachi client side
 app.set("port", 3001);
+const { SF_USERNAME, SF_PASSWORD, SF_TOKEN, SF_LOGIN_URL } = process.env;
+//verify if there are environment variables. If not return error message to console
+if (!(SF_USERNAME && SF_PASSWORD && SF_TOKEN && SF_LOGIN_URL)) {
+  console.error(
+    "Cannot start app: missing mandatory configuration. Check your .env file."
+  );
+  process.exit(-1);
+}
 
 // Connect SF
 app.get("/", (req, res) => {
@@ -14,13 +22,11 @@ app.get("/", (req, res) => {
     // loginUrl: "https://test.salesforce.com", // NOT WORKING
     // loginUrl: "https://curious-moose-tyz4li-dev-ed.lightning.force.com/", // NOT WORKING
     // loginUrl: "https://curious-moose-tyz4li-dev-ed.my.salesforce.com", // WORKING
-    loginUrl: process.env.SF_LOGIN_URL,
+    loginUrl: SF_LOGIN_URL,
   });
-  const username = process.env.SF_USERNAME;
-  const password = process.env.SF_PASSWORD;
-  const securityToken = process.env.SF_TOKEN;
+
   // userInfo is a property in conn, containing userId, orgId, url
-  conn.login(username, password + securityToken, (err, userInfo) => {
+  conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, (err, userInfo) => {
     if (err) {
       return console.log(err);
     }
@@ -32,7 +38,7 @@ app.get("/", (req, res) => {
     console.log("User ID: " + userInfo.id);
     console.log("Org ID: " + userInfo.organizationId);
     // Respond
-    res.send("JSForce Connect Successed");
+    res.send(`<h1>JSForce Connect Successed</h1>`);
   });
 });
 
