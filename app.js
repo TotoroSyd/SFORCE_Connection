@@ -41,17 +41,17 @@ app.get("/", (req, res) => {
       // Retrieve Accounts
       accounts = await retrieveAccount(conn);
     } catch (error) {
-      // Handle error if else
       if (error.message == "Session not found") {
+        // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
         return res.status(404).send("Session not found");
       } else {
+        // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
         return res.status(500).send("Error occured");
       }
     }
     // Respond
-    // res.send(`<h1>JSForce Connect Successed</h1>`);
+    // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
     return res.status(200).json(accounts);
-    // res.send({ data: accounts });
   });
 });
 
