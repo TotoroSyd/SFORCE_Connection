@@ -2,7 +2,8 @@
 const express = require("express");
 const jsforce = require("jsforce");
 require("dotenv").config();
-
+const retrieveAccount = require("./retrieveAccount");
+// const retrieveAccountEvent = require("./retrieveAccount-Event");
 // Create express app
 const app = express();
 // port 3000 is being used by MochiMachi client side
@@ -26,20 +27,37 @@ app.get("/", (req, res) => {
   });
 
   // userInfo is a property in conn, containing userId, orgId, url
-  conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, (err, userInfo) => {
-    if (err) {
-      return console.log(err);
+  conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err, userInfo) => {
+    let accounts = [];
+    try {
+      // Save access token and instace URL for later use
+      // console.log(conn);
+      // console.log("Access Token: " + conn.accessToken);
+      // console.log("Instance URL: " + conn.instanceUrl);
+      // logged in user property
+      // console.log("User ID: " + userInfo.id);
+      // console.log("Org ID: " + userInfo.organizationId);
+
+      // Retrieve Accounts
+      accounts = await retrieveAccount(conn);
+    } catch (error) {
+      // Handle error if else
+      if (error.message == "Session not found") {
+        return res.status(404).send("Session not found");
+      } else {
+        return res.status(500).send("Error occured");
+      }
     }
-    // Save access token and instace URL for later use
-    // console.log(conn);
-    console.log("Access Token: " + conn.accessToken);
-    console.log("Instance URL: " + conn.instanceUrl);
-    // logged in user property
-    console.log("User ID: " + userInfo.id);
-    console.log("Org ID: " + userInfo.organizationId);
     // Respond
-    res.send(`<h1>JSForce Connect Successed</h1>`);
+    // res.send(`<h1>JSForce Connect Successed</h1>`);
+    return res.status(200).json(accounts);
+    // res.send({ data: accounts });
   });
+});
+
+// Hanlde 404
+app.all("*", (req, res) => {
+  return res.status(404).send("Resouce not found");
 });
 
 // Express server listening
