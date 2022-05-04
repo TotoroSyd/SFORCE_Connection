@@ -56,7 +56,7 @@ app.get("/", (req, res) => {
 });
 
 // Create contract
-app.post("/createContract", (req, res) => {
+app.get("/createContract", (req, res) => {
   // const conn = new jsforce.Connection({ loginUrl: SF_LOGIN_URL });
   // conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err, userInfo) => {try{}catch (err){});
 
@@ -72,6 +72,8 @@ app.post("/createContract", (req, res) => {
   let year = date_ob.getFullYear();
   let date_sf = year + "/" + month + "/" + date;
   console.log("date_sf: ", date_sf);
+
+  return res.status(200).send("created contract");
 });
 
 // Hanlde 404
