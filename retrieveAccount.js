@@ -1,6 +1,6 @@
 // Use promise
 const retrieveAccount = (conn) => {
-  const soql = `SELECT Id, Name, CreatedById, OwnerId FROM Account WHERE CreatedById='0055g00000ArZNIAA3' LIMIT 100`;
+  const soql = `SELECT Id, Name, CreatedById, OwnerId FROM Account WHERE CreatedById='0055g00000ArZNIAA2' LIMIT 100`;
   // Use Promise
   return new Promise((resolve, reject) => {
     let accounts = [];

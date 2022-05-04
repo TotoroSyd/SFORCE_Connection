@@ -40,8 +40,8 @@ app.get("/", (req, res) => {
 
       // Retrieve Accounts
       accounts = await retrieveAccount(conn);
-    } catch (error) {
-      if (error.message == "Session not found") {
+    } catch (err) {
+      if (err.message == "Session not found") {
         // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
         return res.status(404).send("Session not found");
       } else {
@@ -55,9 +55,28 @@ app.get("/", (req, res) => {
   });
 });
 
+// Create contract
+app.post("/createContract", (req, res) => {
+  // const conn = new jsforce.Connection({ loginUrl: SF_LOGIN_URL });
+  // conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err, userInfo) => {try{}catch (err){});
+
+  // Test date format convert
+  let date_ob = new Date();
+  console.log("date_ob: ", date_ob);
+  let date = ("0" + date_ob.getDate()).slice(-2);
+  console.log("0" + date_ob.getDate());
+  console.log("date: ", date);
+  let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+  console.log("0" + (date_ob.getMonth() + 1));
+  console.log(month);
+  let year = date_ob.getFullYear();
+  let date_sf = year + "/" + month + "/" + date;
+  console.log("date_sf: ", date_sf);
+});
+
 // Hanlde 404
 app.all("*", (req, res) => {
-  return res.status(404).send("Resouce not found");
+  return res.status(404).send("Resource not found");
 });
 
 // Express server listening
