@@ -1,5 +1,5 @@
 # SFORCE_Connection
-Practice SForce connection with Express, jsforce, Node. A part of MochiMachi project
+SForce connection with Express, jsforce, Node. A part of MochiMachi project
 https://github.com/TotoroSyd/MochiMachi
 
 Saleforce org is Dev Org (playground Salesforce Org) for app development purpose.
