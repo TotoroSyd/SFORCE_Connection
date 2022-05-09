@@ -21,12 +21,13 @@ if (!(SF_USERNAME && SF_PASSWORD && SF_TOKEN && SF_LOGIN_URL)) {
 app.get("/", (req, res) => {
   const conn = new jsforce.Connection({
     // loginUrl: "https://test.salesforce.com", // NOT WORKING
-    // loginUrl: "https://curious-moose-tyz4li-dev-ed.lightning.force.com/", // NOT WORKING
-    // loginUrl: "https://curious-moose-tyz4li-dev-ed.my.salesforce.com", // WORKING
+    // loginUrl: "https://creative-hawk-vy06k7-dev-ed.lightning.force.com/", // NOT WORKING
+    // loginUrl: "https://creative-hawk-vy06k7-dev-ed.my.salesforce.com", // WORKING
     loginUrl: SF_LOGIN_URL,
   });
 
   // userInfo is a property in conn, containing userId, orgId, url
+
   conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err, userInfo) => {
     let accounts = [];
     try {
@@ -52,6 +53,7 @@ app.get("/", (req, res) => {
     // Respond
     // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
     return res.status(200).json(accounts);
+    // return res.status(200).send("Got in");
   });
 });
 
