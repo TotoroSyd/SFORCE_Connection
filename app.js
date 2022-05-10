@@ -3,6 +3,7 @@ const express = require("express");
 const jsforce = require("jsforce");
 require("dotenv").config();
 const retrieveAccount = require("./retrieveAccount");
+import SFDateConvert from "./salesfore_date_convert";
 // const retrieveAccountEvent = require("./retrieveAccount-Event");
 // Create express app
 const app = express();
@@ -61,10 +62,11 @@ app.get("/", (req, res) => {
 app.get("/createContract", (req, res) => {
   // const conn = new jsforce.Connection({ loginUrl: SF_LOGIN_URL });
   // conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err, userInfo) => {try{}catch (err){});
-
-  return res.status(200).send("created contract");
+  let SFDate = SFDateConvert();
+  return res.status(200).send("Contract created");
 });
 
+// ------Below is default set up for express----
 // Hanlde 404
 app.all("*", (req, res) => {
   return res.status(404).send("Resource not found");
