@@ -62,7 +62,7 @@ app.get("/", (req, res) => {
 app.get("/createContract", (req, res) => {
   const conn = new jsforce.Connection({ loginUrl: SF_LOGIN_URL });
   conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err) => {
-    let createContractId;
+    let createdContractId;
     try {
       createdContractId = await createContract(conn);
     } catch (err) {

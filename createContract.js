@@ -28,12 +28,3 @@ const createContract = (conn) => {
 };
 
 module.exports = createContract;
-// // Check if it is a return customer
-// if (isReturnCust) {
-//   // create contract record
-//   insertContract();
-// } else {
-//   // Create new contact if it is a new customer
-//   // create contract record
-//   insertContract();
-// }
