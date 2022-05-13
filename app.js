@@ -3,7 +3,8 @@ const express = require("express");
 const jsforce = require("jsforce");
 require("dotenv").config();
 const retrieveAccount = require("./retrieveAccount");
-import SFDateConvert from "./salesfore_date_convert";
+const createContract = require("./createContract");
+// import SFDateConvert from "./salesfore_date_convert";
 // const retrieveAccountEvent = require("./retrieveAccount-Event");
 // Create express app
 const app = express();
@@ -28,7 +29,6 @@ app.get("/", (req, res) => {
   });
 
   // userInfo is a property in conn, containing userId, orgId, url
-
   conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err, userInfo) => {
     let accounts = [];
     try {
