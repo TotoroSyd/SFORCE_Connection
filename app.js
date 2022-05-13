@@ -3,7 +3,8 @@ const express = require("express");
 const jsforce = require("jsforce");
 require("dotenv").config();
 const retrieveAccount = require("./retrieveAccount");
-import SFDateConvert from "./salesfore_date_convert";
+const createContract = require("./createContract");
+// import SFDateConvert from "./salesfore_date_convert";
 // const retrieveAccountEvent = require("./retrieveAccount-Event");
 // Create express app
 const app = express();
@@ -28,7 +29,6 @@ app.get("/", (req, res) => {
   });
 
   // userInfo is a property in conn, containing userId, orgId, url
-
   conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err, userInfo) => {
     let accounts = [];
     try {
@@ -60,10 +60,26 @@ app.get("/", (req, res) => {
 
 // Create contract
 app.get("/createContract", (req, res) => {
-  // const conn = new jsforce.Connection({ loginUrl: SF_LOGIN_URL });
-  // conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err, userInfo) => {try{}catch (err){});
-  let SFDate = SFDateConvert();
-  return res.status(200).send("Contract created");
+  const conn = new jsforce.Connection({ loginUrl: SF_LOGIN_URL });
+  conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err) => {
+    let createContractId;
+    try {
+      createdContractId = await createContract(conn);
+    } catch (err) {
+      console.log(err);
+      if (err.message == "INVALID FIELD") {
+        // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+        return res.status(500).send("INVALID FIELD");
+      } else {
+        // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+        return res.status(500).send("Error occured");
+      }
+    }
+    // Respond
+    // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    console.log("createdContractId :", createdContractId);
+    return res.status(200).send("Contract created");
+  });
 });
 
 // ------Below is default set up for express----
