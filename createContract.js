@@ -1,27 +1,39 @@
-export default function createContract(conn, isReturnCust) {
-  // Check if it is a return customer
-  if (isReturnCust) {
-    // create contract record
-    insertContract();
-  } else {
-    // Create new contact if it is a new customer
-    // create contract record
-    insertContract();
-  }
-
-  function insertContract() {
+const createContract = (conn) => {
+  // Use Promise
+  return new Promise((resolve, reject) => {
     // Single contract record
-    conn.sobject("Contracts").create({
-      AccountId: "0015g00000GmYPBAA3",
-      OwnerId: "0055g00000ArZNIAA3",
-      StartDate: "2022-03-26",
-      EndDate: "2022-03-31",
-    }),
-      function (err, res) {
+    let createdContractId;
+    conn.sobject("Contract").create(
+      {
+        AccountId: "001Iw000002Pi0FIAS",
+        OwnerId: "005Iw000000UKSGIA4",
+        StartDate: "2022-05-15",
+      },
+      (err, res) => {
         if (err || !res.success) {
-          return console.error(err, res);
+          if (err.errorCode == "INVALID_FIELD") {
+            reject(new Error("INVALID FIELD"));
+          } else {
+            console.log(res);
+            console.error(err);
+            reject(err);
+          }
+        } else {
+          createdContractId = res.id;
+          resolve(createdContractId);
         }
-      };
-    console.log("Created record id : " + res.id);
-  }
-}
+      }
+    );
+  });
+};
+
+module.exports = createContract;
+// // Check if it is a return customer
+// if (isReturnCust) {
+//   // create contract record
+//   insertContract();
+// } else {
+//   // Create new contact if it is a new customer
+//   // create contract record
+//   insertContract();
+// }
