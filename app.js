@@ -4,6 +4,7 @@ const jsforce = require("jsforce");
 require("dotenv").config();
 const retrieveAccount = require("./retrieveAccount");
 const createContract = require("./createContract");
+const createAcc = require("./createAcc");
 // import SFDateConvert from "./salesfore_date_convert";
 // const retrieveAccountEvent = require("./retrieveAccount-Event");
 // Create express app
@@ -59,7 +60,7 @@ app.get("/", (req, res) => {
 });
 
 // Create contract
-app.get("/createContract", (req, res) => {
+app.post("/createContract", (req, res) => {
   const conn = new jsforce.Connection({ loginUrl: SF_LOGIN_URL });
   conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err) => {
     let createdContractId;
