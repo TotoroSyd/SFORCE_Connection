@@ -19,7 +19,7 @@ const createAcc = (conn) => {
   function concatAddress(unit, address) {
     let fAddress;
     if (unit) {
-      fAddress = "Unit " + unit + " ," + address;
+      fAddress = "Unit " + unit + ", " + address;
     } else {
       fAddress = address;
     }
