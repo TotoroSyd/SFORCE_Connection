@@ -4,6 +4,7 @@ const jsforce = require("jsforce");
 require("dotenv").config();
 const retrieveAccount = require("./retrieveAccount");
 const createContract = require("./createContract");
+const createAcc = require("./createAcc");
 // import SFDateConvert from "./salesfore_date_convert";
 // const retrieveAccountEvent = require("./retrieveAccount-Event");
 // Create express app
@@ -59,7 +60,7 @@ app.get("/", (req, res) => {
 });
 
 // Create contract
-app.get("/createContract", (req, res) => {
+app.post("/createContract", (req, res) => {
   const conn = new jsforce.Connection({ loginUrl: SF_LOGIN_URL });
   conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err) => {
     let createdContractId;
@@ -79,6 +80,30 @@ app.get("/createContract", (req, res) => {
     // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
     console.log("createdContractId :", createdContractId);
     return res.status(200).send("Contract created");
+  });
+});
+
+// Create account
+app.post("/createAccount", (req, res) => {
+  const conn = new jsforce.Connection({ loginUrl: SF_LOGIN_URL });
+  conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err) => {
+    let createdAccountId;
+    try {
+      createdAccountId = await createAcc(conn);
+    } catch (err) {
+      console.log(err);
+      if (err.message == "INVALID FIELD") {
+        // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+        return res.status(500).send("INVALID FIELD");
+      } else {
+        // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+        return res.status(500).send("Error occured");
+      }
+    }
+    // Respond
+    // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    console.log("createdAccountId :", createdAccountId);
+    return res.status(200).send("Account created");
   });
 });
 
