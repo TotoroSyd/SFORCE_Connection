@@ -61,7 +61,7 @@ app.get("/", (req, res) => {
 });
 
 // Create contract
-app.post("/createContract", (req, res) => {
+app.post("/createContract", cors(), (req, res) => {
   const conn = new jsforce.Connection({ loginUrl: SF_LOGIN_URL });
   conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err) => {
     let createdContractId;
@@ -85,7 +85,7 @@ app.post("/createContract", (req, res) => {
 });
 
 // Create account
-app.post("/createAccount", (req, res) => {
+app.post("/createAccount", cors(), (req, res) => {
   const conn = new jsforce.Connection({ loginUrl: SF_LOGIN_URL });
   conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err) => {
     let createdAccountId;
