@@ -1,6 +1,7 @@
 // Adding library
 const express = require("express");
 const jsforce = require("jsforce");
+const cors = require("cors");
 require("dotenv").config();
 const retrieveAccount = require("./retrieveAccount");
 const createContract = require("./createContract");
