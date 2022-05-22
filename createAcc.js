@@ -40,19 +40,23 @@ const createAcc = (conn) => {
         ShippingState: shippingState,
         ShippingPostalCode: shippingpostCode,
         ShippingCountry: shippingCountry,
-        Active__c: isActive,
+        // Active__c: isActive,
         // IsPersonAccount: isPersonAccount,
       },
       (err, res) => {
+        console.log(res, err);
         if (err || !res.success) {
           if (err.errorCode == "INVALID_FIELD") {
             reject(new Error("INVALID FIELD"));
           }
           if (err.errorCode == "JSON_PARSER_ERROR") {
+            reject(new Error("JSON_PARSER_ERROR"));
+          }
+          if (err.errorCode == "INVALID_OR_NULL_FOR_RESTRICTED_PICKLIST") {
             reject(
-              new Error(
-                "JSON_PARSER_ERROR - Cannot deserialize instance of a compound field"
-              )
+              new Error("INVALID_OR_NULL_FOR_RESTRICTED_PICKLIST", {
+                cause: err.fields,
+              })
             );
           } else {
             console.log(res);
@@ -60,6 +64,7 @@ const createAcc = (conn) => {
             reject(err);
           }
         } else {
+          console.log(res);
           createdAccId = res.id;
           resolve(createdAccId);
         }
