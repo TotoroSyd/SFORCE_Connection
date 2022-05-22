@@ -96,6 +96,17 @@ app.post("/createAccount", cors(), (req, res) => {
       if (err.message == "INVALID FIELD") {
         // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
         return res.status(500).send("INVALID FIELD");
+      }
+      if (err.message == "JSON_PARSER_ERROR") {
+        return res
+          .status(500)
+          .send(
+            "JSON_PARSER_ERROR - Cannot deserialize instance of a compound field"
+          );
+      }
+      if (err.message == "INVALID_OR_NULL_FOR_RESTRICTED_PICKLIST") {
+        // return res.status(500).send("INVALID_OR_NULL_FOR_RESTRICTED_PICKLIST");
+        return res.status(500).send(err);
       } else {
         // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
         return res.status(500).send("Error occured");
