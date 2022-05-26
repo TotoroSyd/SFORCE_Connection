@@ -10,6 +10,9 @@ const createAcc = require("./createAcc");
 // const retrieveAccountEvent = require("./retrieveAccount-Event");
 // Create express app
 const app = express();
+app.use(cors());
+app.use(express.json());
+
 // port 3000 is being used by MochiMachi client side
 app.set("port", 3001);
 const { SF_USERNAME, SF_PASSWORD, SF_TOKEN, SF_LOGIN_URL } = process.env;
@@ -61,31 +64,36 @@ app.get("/", (req, res) => {
 });
 
 // Create contract
-app.post("/createContract", cors(), (req, res) => {
-  const conn = new jsforce.Connection({ loginUrl: SF_LOGIN_URL });
-  conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err) => {
-    let createdContractId;
-    try {
-      createdContractId = await createContract(conn);
-    } catch (err) {
-      console.log(err);
-      if (err.message == "INVALID FIELD") {
-        // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
-        return res.status(500).send("INVALID FIELD");
-      } else {
-        // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
-        return res.status(500).send("Error occured");
-      }
-    }
-    // Respond
-    // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
-    console.log("createdContractId :", createdContractId);
-    return res.status(200).send("Contract created");
-  });
+app.post("/createContract", (req, res) => {
+  // Extract data from req
+  console.log("req", typeof req.body);
+  console.log(req.body.title);
+  console.log("stringify req body", JSON.stringify(req.body));
+  // const conn = new jsforce.Connection({ loginUrl: SF_LOGIN_URL });
+  // conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err) => {
+  //   let createdContractId;
+  //   try {
+  //     createdContractId = await createContract(conn);
+  //   } catch (err) {
+  //     console.log(err);
+  //     if (err.message == "INVALID FIELD") {
+  //       // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+  //       return res.status(500).send("INVALID FIELD");
+  //     } else {
+  //       // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+  //       return res.status(500).send("Error occured");
+  //     }
+  //   }
+  //   // Respond
+  //   // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+  //   console.log("createdContractId :", createdContractId);
+  //   return res.status(200).send("Contract created");
+  // });
+  return res.status(200).send("Contract created");
 });
 
 // Create account
-app.post("/createAccount", cors(), (req, res) => {
+app.post("/createAccount", (req, res) => {
   const conn = new jsforce.Connection({ loginUrl: SF_LOGIN_URL });
   conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err) => {
     let createdAccountId;
