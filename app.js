@@ -101,6 +101,7 @@ app.post("/createContract", (req, res) => {
   const conn = new jsforce.Connection({ loginUrl: SF_LOGIN_URL });
   conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err) => {
     let createdContractId;
+    let createdAccountId;
     try {
       createdContractId = await createContract(conn);
     } catch (err) {
@@ -116,6 +117,7 @@ app.post("/createContract", (req, res) => {
     // Respond
     // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
     console.log("createdContractId :", createdContractId);
+    console.log("createdAccountId", createdAccountId);
     return res.status(200).send("New customer. Contract created");
   });
 
