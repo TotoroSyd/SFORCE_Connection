@@ -10,8 +10,11 @@ const createAcc = require("./createAcc");
 // const retrieveAccountEvent = require("./retrieveAccount-Event");
 // Create express app
 const app = express();
+
+// Use express modules
 app.use(cors());
 app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
 
 // port 3000 is being used by MochiMachi client side
 app.set("port", 3001);
