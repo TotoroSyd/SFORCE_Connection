@@ -69,30 +69,57 @@ app.get("/", (req, res) => {
 // Create contract
 app.post("/createContract", (req, res) => {
   // Extract data from req
-  console.log("req", typeof req.body);
-  console.log(req.body.title);
-  console.log("stringify req body", JSON.stringify(req.body));
-  // const conn = new jsforce.Connection({ loginUrl: SF_LOGIN_URL });
-  // conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err) => {
-  //   let createdContractId;
-  //   try {
-  //     createdContractId = await createContract(conn);
-  //   } catch (err) {
-  //     console.log(err);
-  //     if (err.message == "INVALID FIELD") {
-  //       // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
-  //       return res.status(500).send("INVALID FIELD");
-  //     } else {
-  //       // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
-  //       return res.status(500).send("Error occured");
-  //     }
-  //   }
-  //   // Respond
-  //   // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
-  //   console.log("createdContractId :", createdContractId);
-  //   return res.status(200).send("Contract created");
-  // });
-  return res.status(200).send("Contract created");
+  // --Validate req body first
+  // ----TODO
+
+  // Check if it is a new customer.
+  if (req.oldCust) {
+    // Create a contract in Salesforce with data from req
+    const conn = new jsforce.Connection({ loginUrl: SF_LOGIN_URL });
+    conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err) => {
+      let createdContractId;
+      try {
+        createdContractId = await createContract(conn);
+      } catch (err) {
+        console.log(err);
+        if (err.message == "INVALID FIELD") {
+          // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+          return res.status(500).send("INVALID FIELD");
+        } else {
+          // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+          return res.status(500).send("Error occured");
+        }
+      }
+      // Respond
+      // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+      console.log("createdContractId :", createdContractId);
+      return res.status(200).send("Return customer. Contract created");
+    });
+  }
+
+  // Create a contract and new customer account in Salesforce with data from req
+  const conn = new jsforce.Connection({ loginUrl: SF_LOGIN_URL });
+  conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err) => {
+    let createdContractId;
+    try {
+      createdContractId = await createContract(conn);
+    } catch (err) {
+      console.log(err);
+      if (err.message == "INVALID FIELD") {
+        // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+        return res.status(500).send("INVALID FIELD");
+      } else {
+        // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+        return res.status(500).send("Error occured");
+      }
+    }
+    // Respond
+    // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    console.log("createdContractId :", createdContractId);
+    return res.status(200).send("New customer. Contract created");
+  });
+
+  // return res.status(200).send("Contract created");
 });
 
 // Create account
