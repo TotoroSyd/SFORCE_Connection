@@ -1,4 +1,4 @@
-export default function SFDateConvert() {
+const SFDateConvert = () => {
   let date_ob = new Date();
   //   console.log("date_ob: ", date_ob);
   let date = ("0" + date_ob.getDate()).slice(-2);
@@ -12,4 +12,5 @@ export default function SFDateConvert() {
   //   console.log("date_sf: ", date_sf);
 
   return date_sf;
-}
+};
+module.exports = SFDateConvert;

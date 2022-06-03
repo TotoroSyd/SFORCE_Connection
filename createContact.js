@@ -1,17 +1,17 @@
 // Create new customer contact record
-const createContact = (conn) => {
-  let firstName = "Lego";
-  let lastName = "Perera";
+const createContact = (conn, body) => {
+  let firstName = body.firstName;
+  let lastName = body.lastName;
   let ownerId = '005Iw000000UKSGIA4"';
-  let email = "lego.perera@gmail.com";
-  let mobilePhone = "5655";
-  let unit = "10";
-  let address = "17 Lollipop street, Thornleigh";
+  let email = body.email;
+  let mobilePhone = body.phone;
+  let unit = body.unit;
+  let address = body.address;
   let fullAddress = concatAddress(unit, address);
-  let mailingCity = "Sydney";
-  let mailingState = "NSW";
-  let postCode = "2121";
-  let mailingCountry = "Australia";
+  let mailingCity = body.city;
+  let mailingState = body.state;
+  let postCode = body.postCode;
+  let mailingCountry = body.country;
 
   function concatAddress(unit, address) {
     let fAddress;
@@ -22,8 +22,9 @@ const createContact = (conn) => {
     }
     return fAddress;
   }
+
   return new Promise((resolve, reject) => {
-    // Create sigle contact record
+    // Create a sigle contact record
     let createdContactId;
     conn.sobject("Contact").create(
       {

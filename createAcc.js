@@ -1,19 +1,19 @@
-const createAcc = (conn) => {
+const createAcc = (conn, body) => {
   let ownerId = "005Iw000000UKSGIA4";
-  let firstName = "Lego";
-  let lastName = "Perera";
-  let fullName = firstName + lastName;
-  let email = "lego.perera@gmail.com";
-  let mobilePhone = "5655";
-  let unit = "10";
-  let address = "17 Lollipop street, Thornleigh";
+  let firstName = body.firstName;
+  let lastName = body.lastName;
+  let fullName = firstName + " " + lastName;
+  let email = body.email;
+  let mobilePhone = body.phone;
+  let unit = body.unit;
+  let address = body.address;
   let fullAddress = concatAddress(unit, address);
-  let shippingCity = "Sydney";
-  let shippingState = "NSW";
-  let shippingpostCode = "2121";
-  let shippingCountry = "Australia";
+  let shippingCity = body.city;
+  let shippingState = body.state;
+  let shippingpostCode = body.postCode;
+  let shippingCountry = body.country;
   let type = "Customer - Channel";
-  let isActive = true;
+  let isActive = "Yes";
   let isPersonAccount = true;
 
   function concatAddress(unit, address) {
@@ -34,14 +34,13 @@ const createAcc = (conn) => {
         Name: fullName,
         Type: type,
         Phone: mobilePhone,
-        // PersonEmail: email,
+        Email__c: email,
         ShippingStreet: fullAddress,
         ShippingCity: shippingCity,
         ShippingState: shippingState,
         ShippingPostalCode: shippingpostCode,
         ShippingCountry: shippingCountry,
-        // Active__c: isActive,
-        // IsPersonAccount: isPersonAccount,
+        Active__c: isActive,
       },
       (err, res) => {
         console.log(res, err);
