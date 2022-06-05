@@ -43,7 +43,7 @@ const createAcc = (conn, body) => {
         Active__c: isActive,
       },
       (err, res) => {
-        console.log(res, err);
+        // console.log(res, err);
         if (err || !res.success) {
           if (err.errorCode == "INVALID_FIELD") {
             reject(new Error("INVALID FIELD"));
