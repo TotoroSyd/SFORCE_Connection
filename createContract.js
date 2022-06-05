@@ -1,7 +1,8 @@
 // const SFDateConvert = require("./salesforce_date_convert");
 
 const createContract = (conn, body, createdAccountId) => {
-  let accountId = "001Iw000002Pi0FIAS";
+  // let accountId = "001Iw000002Pi0FIAS";
+  let accountId = createdAccountId;
   let ownerId = "005Iw000000UKSGIA4";
   let unit = body.unit;
   let address = body.address;
