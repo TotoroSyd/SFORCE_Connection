@@ -6,7 +6,8 @@ require("dotenv").config();
 const retrieveAccount = require("./retrieveAccount");
 const createContract = require("./createContract");
 const createAcc = require("./createAcc");
-const { body, validationResult } = require("express-validator");
+const create_contract_schema = require("./schema/create_contract_scheme");
+const validateRequestSchema = require("./helper/validate_request_schema");
 // Create express app
 const app = express();
 
@@ -68,18 +69,8 @@ app.get("/", (req, res) => {
 // Create contract
 app.post(
   "/createContract",
-
-  body.isJSON().not().isEmpty(),
-  body("firstName").isAlpha(),
-  body("lastName").isAlpha(),
-  body("phone").isInt(),
-  body("email").isEmail().normalizeEmail(),
-  body("unit").isInt(),
-  body("country").isAfter(),
-  body("city").isAlpha(),
-  body("state").isAlpha(),
-  body("postCode").isInt(),
-
+  create_contract_schema,
+  validateRequestSchema,
   (req, res) => {
     // Extract data from req
     let body = req.body;
@@ -119,10 +110,10 @@ app.post(
     // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
     console.log("createdContractId :", createdContractId);
     console.log("createdAccountId", createdAccountId);
-    return res.status(200).send("New customer. Contract created");
+    return res.status(201).send("New customer. Contract created");
   });
   */
-    return res.status(200).send("Contract created");
+    return res.status(201).send("Contract created");
   }
 );
 
