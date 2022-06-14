@@ -6,8 +6,8 @@ require("dotenv").config();
 const retrieveAccount = require("./retrieveAccount");
 const createContract = require("./createContract");
 const createAcc = require("./createAcc");
-// import SFDateConvert from "./salesfore_date_convert";
-// const retrieveAccountEvent = require("./retrieveAccount-Event");
+const create_contract_schema = require("./schema/create_contract_scheme");
+const validateRequestSchema = require("./helper/validate_request_schema");
 // Create express app
 const app = express();
 
@@ -67,14 +67,16 @@ app.get("/", (req, res) => {
 });
 
 // Create contract
-app.post("/createContract", (req, res) => {
-  // Extract data from req
-  let body = req.body;
-  // --Validate req body first
-  // ----TODO
-  // -------Not empty
-  // -------Must have required infor
+app.post(
+  "/createContract",
+  create_contract_schema,
+  validateRequestSchema,
+  (req, res) => {
+    // Extract data from req
+    let body = req.body;
+    console.log(body);
 
+    /*
   // Create a contract and new customer account in Salesforce with data from req
   const conn = new jsforce.Connection({ loginUrl: SF_LOGIN_URL });
   conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err) => {
@@ -88,6 +90,17 @@ app.post("/createContract", (req, res) => {
       if (err.message == "INVALID FIELD") {
         // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
         return res.status(500).send("INVALID FIELD");
+      }
+      if (err.message == "JSON_PARSER_ERROR") {
+        return res
+          .status(500)
+          .send(
+            "JSON_PARSER_ERROR - Cannot deserialize instance of a compound field"
+          );
+      }
+      if (err.message == "INVALID_OR_NULL_FOR_RESTRICTED_PICKLIST") {
+        // return res.status(500).send("INVALID_OR_NULL_FOR_RESTRICTED_PICKLIST");
+        return res.status(500).send(err);
       } else {
         // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
         return res.status(500).send("Error occured");
@@ -97,10 +110,12 @@ app.post("/createContract", (req, res) => {
     // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
     console.log("createdContractId :", createdContractId);
     console.log("createdAccountId", createdAccountId);
-    return res.status(200).send("New customer. Contract created");
+    return res.status(201).send("New customer. Contract created");
   });
-  // return res.status(200).send("Contract created");
-});
+  */
+    return res.status(201).send("Contract created");
+  }
+);
 
 // Create account
 app.post("/createAccount", (req, res) => {

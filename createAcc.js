@@ -1,3 +1,5 @@
+const concatAddress = require("./helper/concatAddress");
+
 const createAcc = (conn, body) => {
   let ownerId = "005Iw000000UKSGIA4";
   let firstName = body.firstName;
@@ -15,16 +17,6 @@ const createAcc = (conn, body) => {
   let type = "Customer - Channel";
   let isActive = "Yes";
   let isPersonAccount = true;
-
-  function concatAddress(unit, address) {
-    let fAddress;
-    if (unit) {
-      fAddress = "Unit " + unit + ", " + address;
-    } else {
-      fAddress = address;
-    }
-    return fAddress;
-  }
 
   return new Promise((resolve, reject) => {
     let createdAccId;
