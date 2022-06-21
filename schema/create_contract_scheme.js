@@ -1,7 +1,6 @@
 const { body } = require("express-validator");
 
 const create_contract_schema = [
-  body.isJSON().not().isEmpty(),
   body("firstName").isAlpha().withMessage("First name must be letters"),
   body("lastName").isAlpha().withMessage("Last name must be letters"),
   body("phone").isInt(),
