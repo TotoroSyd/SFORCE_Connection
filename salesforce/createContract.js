@@ -13,6 +13,7 @@ const createContract = (conn, body, createdAccountId) => {
   let shippingpostCode = body.postCode;
   let shippingCountry = body.country;
   let startDate = sFDateConvert();
+  let revToReport = 50;
 
   // Use Promise
   return new Promise((resolve, reject) => {
@@ -33,6 +34,7 @@ const createContract = (conn, body, createdAccountId) => {
         ShippingState: shippingState,
         ShippingStreet: fullAddress,
         ShippingPostalCode: shippingpostCode,
+        Revenue_to_report__c: revToReport,
       },
       (err, res) => {
         if (err || !res.success) {
