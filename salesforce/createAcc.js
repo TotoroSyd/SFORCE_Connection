@@ -1,4 +1,4 @@
-const concatAddress = require("./helper/concatAddress");
+const concatAddress = require("../helper/concatAddress");
 
 const createAcc = (conn, body) => {
   let ownerId = "005Iw000000UKSGIA4";

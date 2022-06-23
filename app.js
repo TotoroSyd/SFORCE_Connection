@@ -13,14 +13,6 @@ app.use(express.json());
 
 // port 3000 is being used by MochiMachi client side
 app.set("port", 3001);
-const { SF_USERNAME, SF_PASSWORD, SF_TOKEN, SF_LOGIN_URL } = process.env;
-//verify if there are environment variables. If not return error message to console
-if (!(SF_USERNAME && SF_PASSWORD && SF_TOKEN && SF_LOGIN_URL)) {
-  console.error(
-    "Cannot start app: missing mandatory configuration. Check your .env file."
-  );
-  process.exit(-1);
-}
 
 // Distribute requests to routes
 app.use("/", rootRouter);
