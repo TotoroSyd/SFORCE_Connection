@@ -61,3 +61,4 @@ router.post("/", create_contract_schema, validateRequestSchema, (req, res) => {
 
   //   return res.status(201).send("Contract created");
 });
+module.exports = router;

@@ -1,5 +1,5 @@
-const sFDateConvert = require("./helper/concatAddress");
-const concatAddress = require("./helper/concatAddress");
+const sFDateConvert = require("../helper/sFDateConvert");
+const concatAddress = require("../helper/concatAddress");
 
 const createContract = (conn, body, createdAccountId) => {
   // let accountId = "001Iw000002Pi0FIAS";
