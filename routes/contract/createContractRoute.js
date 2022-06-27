@@ -4,6 +4,8 @@ const validateRequestSchema = require("../../helper/validate_request_schema");
 const createAcc = require("../../salesforce/createAcc");
 const createContract = require("../../salesforce/createContract");
 const jsforce = require("jsforce");
+const createOrder = require("../../salesforce/createOrder");
+
 require("dotenv").config();
 
 const router = express.Router();
@@ -21,16 +23,23 @@ if (!(SF_USERNAME && SF_PASSWORD && SF_TOKEN && SF_LOGIN_URL)) {
 router.post("/", create_contract_schema, validateRequestSchema, (req, res) => {
   // Extract data from req if passing validation
   let body = req.body;
-  console.log(body);
+  // console.log(body);
 
   // Create a contract and new customer account in Salesforce with data from req
   const conn = new jsforce.Connection({ loginUrl: SF_LOGIN_URL });
   conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err) => {
     let createdContractId;
     let createdAccountId;
+    let createdOrderId;
     try {
       createdAccountId = await createAcc(conn, body);
       createdContractId = await createContract(conn, body, createdAccountId);
+      createdOrderId = await createOrder(
+        conn,
+        body,
+        createdAccountId,
+        createdContractId
+      );
     } catch (err) {
       console.log(err);
       if (err.message == "INVALID FIELD") {
@@ -54,8 +63,12 @@ router.post("/", create_contract_schema, validateRequestSchema, (req, res) => {
     }
     // Respond
     // use Return here to handle Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
-    console.log("createdContractId :", createdContractId);
-    console.log("createdAccountId", createdAccountId);
+    console.log({
+      ContractId: createdContractId,
+      AccountId: createdAccountId,
+      OrderId: createdOrderId,
+    });
+
     return res.status(201).send("Contract created");
   });
 
