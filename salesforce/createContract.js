@@ -2,7 +2,6 @@ const sFDateConvert = require("../helper/sFDateConvert");
 const concatAddress = require("../helper/concatAddress");
 
 const createContract = (conn, body, createdAccountId) => {
-  // let accountId = "001Iw000002Pi0FIAS";
   let accountId = createdAccountId;
   let ownerId = "005Iw000000UKSGIA4";
   let unit = body.unit;
@@ -13,7 +12,8 @@ const createContract = (conn, body, createdAccountId) => {
   let shippingpostCode = body.postCode;
   let shippingCountry = body.country;
   let startDate = sFDateConvert();
-  let revToReport = 50;
+  let revToReportWeb = 50;
+  // let priceBook = "Mochi";
 
   // Use Promise
   return new Promise((resolve, reject) => {
@@ -22,7 +22,7 @@ const createContract = (conn, body, createdAccountId) => {
     conn.sobject("Contract").create(
       {
         AccountId: accountId,
-        OwnerId: "005Iw000000UKSGIA4",
+        OwnerId: ownerId,
         StartDate: startDate,
         BillingCity: shippingCity,
         BillingCountry: shippingCountry,
@@ -34,7 +34,8 @@ const createContract = (conn, body, createdAccountId) => {
         ShippingState: shippingState,
         ShippingStreet: fullAddress,
         ShippingPostalCode: shippingpostCode,
-        Revenue_to_report__c: revToReport,
+        Revenue_To_Report_Web__c: revToReportWeb,
+        // Pricebook2: priceBook,
       },
       (err, res) => {
         if (err || !res.success) {

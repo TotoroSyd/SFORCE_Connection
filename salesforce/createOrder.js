@@ -1,12 +1,11 @@
-const concatAddress = require("../helper/concatAddress");
+const sFDateConvert = require("../helper/sFDateConvert");
+const concatAddress = require("..//helper/concatAddress");
 
-const createAcc = (conn, body) => {
+const createOrder = (conn, body, createdAccountId, createdContractId) => {
   let ownerId = "005Iw000000UKSGIA4";
-  let firstName = body.firstName;
-  let lastName = body.lastName;
-  let fullName = firstName + " " + lastName;
-  let email = body.email;
-  let mobilePhone = body.phone;
+  let accountId = createdAccountId;
+  let contractId = createdContractId;
+  let effectiveDate = sFDateConvert();
   let unit = body.unit;
   let address = body.address;
   let fullAddress = concatAddress(unit, address);
@@ -14,28 +13,33 @@ const createAcc = (conn, body) => {
   let shippingState = body.state;
   let shippingpostCode = body.postCode;
   let shippingCountry = body.country;
-  let type = "Customer - Channel";
-  let isActive = "Yes";
-  let isPersonAccount = true;
+  let status = "Draft";
+  // let priceBook = "Mochi";
 
+  // Use Promise
   return new Promise((resolve, reject) => {
-    let createdAccId;
-    conn.sobject("Account").create(
+    // Single order record
+    let createdOrderId;
+    conn.sobject("Order").create(
       {
+        AccountId: accountId,
+        ContractId: contractId,
         OwnerId: ownerId,
-        Name: fullName,
-        Type: type,
-        Phone: mobilePhone,
-        Email__c: email,
-        ShippingStreet: fullAddress,
+        EffectiveDate: effectiveDate,
+        BillingCity: shippingCity,
+        BillingCountry: shippingCountry,
+        BillingState: shippingState,
+        BillingStreet: fullAddress,
+        BillingPostalCode: shippingpostCode,
         ShippingCity: shippingCity,
-        ShippingState: shippingState,
-        ShippingPostalCode: shippingpostCode,
         ShippingCountry: shippingCountry,
-        Active__c: isActive,
+        ShippingState: shippingState,
+        ShippingStreet: fullAddress,
+        ShippingPostalCode: shippingpostCode,
+        Status: status,
+        // Pricebook2: priceBook,
       },
       (err, res) => {
-        // console.log(res, err);
         if (err || !res.success) {
           if (err.errorCode == "INVALID_FIELD") {
             reject(new Error("INVALID FIELD"));
@@ -55,13 +59,11 @@ const createAcc = (conn, body) => {
             reject(err);
           }
         } else {
-          // console.log(res);
-          createdAccId = res.id;
-          resolve(createdAccId);
+          createdOrderId = res.id;
+          resolve(createdOrderId);
         }
       }
     );
   });
 };
-
-module.exports = createAcc;
+module.exports = createOrder;
