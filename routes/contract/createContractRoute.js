@@ -20,11 +20,12 @@ if (!(SF_USERNAME && SF_PASSWORD && SF_TOKEN && SF_LOGIN_URL)) {
 }
 
 // Create contract
-router.post("/", create_contract_schema, validateRequestSchema, (req, res) => {
+// router.post("/", create_contract_schema, validateRequestSchema, (req, res) => {
+router.post("/", (req, res) => {
   // Extract data from req if passing validation
   let body = req.body;
-  // console.log(body);
-
+  console.log(body);
+  /*
   // Create a contract and new customer account in Salesforce with data from req
   const conn = new jsforce.Connection({ loginUrl: SF_LOGIN_URL });
   conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err) => {
@@ -71,7 +72,7 @@ router.post("/", create_contract_schema, validateRequestSchema, (req, res) => {
 
     return res.status(201).send("Contract created");
   });
-
-  //   return res.status(201).send("Contract created");
+*/
+  return res.status(201).send("Contract created");
 });
 module.exports = router;
