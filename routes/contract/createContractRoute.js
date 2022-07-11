@@ -5,6 +5,7 @@ const createAcc = require("../../salesforce/createAcc");
 const createContract = require("../../salesforce/createContract");
 const jsforce = require("jsforce");
 const createOrder = require("../../salesforce/createOrder");
+const createOrderItem = require("../../salesforce/createOrderItem");
 
 require("dotenv").config();
 
@@ -24,8 +25,9 @@ if (!(SF_USERNAME && SF_PASSWORD && SF_TOKEN && SF_LOGIN_URL)) {
 router.post("/", (req, res) => {
   // Extract data from req if passing validation
   let body = req.body;
+  // --For debugging, do not delete
   console.log(body);
-  /*
+
   // Create a contract and new customer account in Salesforce with data from req
   const conn = new jsforce.Connection({ loginUrl: SF_LOGIN_URL });
   conn.login(SF_USERNAME, SF_PASSWORD + SF_TOKEN, async (err) => {
@@ -41,6 +43,11 @@ router.post("/", (req, res) => {
         createdAccountId,
         createdContractId
       );
+      // for each order in orderArray, passing each of them into function CreateOrderItem
+      body["orderArray"].forEach(async (element) => {
+        let createdItem = await createOrderItem(conn, element, createdOrderId);
+        console.log("Order item id: ", createdItem);
+      });
     } catch (err) {
       console.log(err);
       if (err.message == "INVALID FIELD") {
@@ -72,7 +79,7 @@ router.post("/", (req, res) => {
 
     return res.status(201).send("Contract created");
   });
-*/
-  return res.status(201).send("Contract created");
+
+  // return res.status(201).send("Contract created");
 });
 module.exports = router;
