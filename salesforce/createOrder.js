@@ -14,7 +14,7 @@ const createOrder = (conn, body, createdAccountId, createdContractId) => {
   let shippingpostCode = body.postCode;
   let shippingCountry = body.country;
   let status = "Draft";
-  // let priceBook = "Mochi";
+  let priceBookId = "01sIw000002N4SCIA0";
 
   // Use Promise
   return new Promise((resolve, reject) => {
@@ -37,7 +37,7 @@ const createOrder = (conn, body, createdAccountId, createdContractId) => {
         ShippingStreet: fullAddress,
         ShippingPostalCode: shippingpostCode,
         Status: status,
-        // Pricebook2: priceBook,
+        Pricebook2Id: priceBookId,
       },
       (err, res) => {
         if (err || !res.success) {
