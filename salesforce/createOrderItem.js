@@ -1,4 +1,4 @@
-const getPriceBookEntryId = require("../salesforce/priceBookEntry");
+const getPriceBookEntryId = require("../helper/priceBookEntry");
 
 const createOrderItem = (conn, element, createdOrderId) => {
   let orderId = createdOrderId;
