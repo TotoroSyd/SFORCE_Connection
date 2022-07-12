@@ -9,7 +9,7 @@
   "name": "SalesforceConnection",
   "version": "1.0.0",
   "description": "Salesforce connection with Express, jsforce",
-  "main": "index.js",
+  "main": "app.js",
   "author": "Phoebe Nguyen",
   "license": "MIT"
 }

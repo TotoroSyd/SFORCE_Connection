@@ -30,3 +30,6 @@ app.listen(app.get("port"), (err) => {
   }
   console.log(`Server listening at port: ${app.get("port")}`);
 });
+
+// Export the Express API for Vercel to turn Express into a serverless function
+module.exports = app;
