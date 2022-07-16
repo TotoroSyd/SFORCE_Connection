@@ -7,11 +7,12 @@ const jsforce = require("jsforce");
 const createOrder = require("../../salesforce/createOrder");
 const createOrderItem = require("../../salesforce/createOrderItem");
 
-require("dotenv").config();
+// require("dotenv").config();
 
 const router = express.Router();
 
 const { SF_USERNAME, SF_PASSWORD, SF_TOKEN, SF_LOGIN_URL } = process.env;
+console.log(process.env);
 //verify if there are environment variables. If not return error message to console
 if (!(SF_USERNAME && SF_PASSWORD && SF_TOKEN && SF_LOGIN_URL)) {
   console.error(
