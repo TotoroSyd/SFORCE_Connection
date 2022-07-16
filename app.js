@@ -8,7 +8,17 @@ require("dotenv").config();
 const app = express();
 
 // Use express modules
-app.use(cors());
+var whitelist = ["http://localhost:3000", "https://mochi-machi.vercel.app/"];
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // port 3000 is being used by MochiMachi client side
