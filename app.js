@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 // port 3000 is being used by MochiMachi client side
-app.set("port", 3001 || process.env.PORT);
+app.set("port", process.env.PORT || 3001);
 
 // Distribute requests to routes
 app.use("/", rootRouter);
