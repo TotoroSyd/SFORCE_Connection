@@ -2,6 +2,8 @@
 SForce connection with Express, jsforce, Node. A part of MochiMachi project
 https://github.com/TotoroSyd/MochiMachi
 
+**PLEASE MOVE TO README IN THE MAIN REPO FOR A FULL README**
+
 Saleforce org is Dev Org (playground Salesforce Org) for app development purpose.
 
 ## To run
