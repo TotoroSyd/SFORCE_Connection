@@ -1,4 +1,4 @@
-# SFORCE_Connection
+# MochiMachi_SFORCE_Connection_Handler
 SForce connection with Express, jsforce, Node. A part of MochiMachi project
 https://github.com/TotoroSyd/MochiMachi
 
