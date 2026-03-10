@@ -8,7 +8,7 @@ require("dotenv").config();
 const app = express();
 
 // Use express modules
-var whitelist = ["http://localhost:3000", "https://mochi-machi.vercel.app"];
+var whitelist = ["http://localhost:3000", "https://mochi-machi.vercel.app",'http://localhost:8080/', 'https://mochi-shop-v2.vercel.app/'];
 var corsOptions = {
   origin: function (origin, callback) {
     console.log("This is the origin: ", origin);
